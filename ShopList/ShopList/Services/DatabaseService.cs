@@ -1,13 +1,19 @@
 ﻿using ShopList.Models;
+using ShopList.Services;
 using System;
 using System.Collections.ObjectModel;
+using Xamarin.Forms;
+
+[assembly: Dependency(typeof(DatabaseService))]
 
 namespace ShopList.Services
 {
 	public interface IDatabaseService
 	{
 		ObservableCollection<Item> GetShopList(ItemType listType);
+		void AddItem(Item newItem);
 	}
+
 
 	public class DatabaseService : IDatabaseService
 	{
@@ -38,6 +44,19 @@ namespace ShopList.Services
 					return null;
 			}
 
+		}
+
+		public void AddItem(Item newItem)
+		{
+			switch (newItem.ItemType)
+			{
+				case ItemType.Groceries:
+					_groceries.Insert(0, newItem);
+					break;
+				case ItemType.Todos:
+					_todos.Insert(0, newItem);
+					break;
+			}
 		}
 	}
 }

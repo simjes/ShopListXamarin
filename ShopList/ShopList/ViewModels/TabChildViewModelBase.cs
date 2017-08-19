@@ -10,7 +10,7 @@ namespace ShopList.ViewModels
 {
 	public class TabChildViewModelBase : BaseViewModel, IActiveAware, INavigatingAware, IDestructible
 	{
-		private IDatabaseService _databaseService;
+		protected IDatabaseService _databaseService;
 
 		public DelegateCommand SubmitItemCommand { get; set; }
 
@@ -24,9 +24,9 @@ namespace ShopList.ViewModels
 			set => SetProperty(ref _newItem, value);
 		}
 
-		public TabChildViewModelBase()
+		public TabChildViewModelBase(IDatabaseService databaseService)
 		{
-			//_databaseService = databaseService;
+			_databaseService = databaseService;
 			IsActiveChanged += (sender, e) => System.Diagnostics.Debug.WriteLine($"{Title} IsActive: {IsActive}");
 		}
 
