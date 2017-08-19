@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="ShopList.Views.ItemListView">
+  <ContentView.Content>
+		<StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="Green">
+			<ListView BackgroundColor="Orange" ItemsSource="{Binding ItemList}" Rotation="180">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<StackLayout Rotation="180">
+								<Label Text="{Binding Name}" TextColor="#FFFFFF"></Label>
+							</StackLayout>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+			<StackLayout Orientation="Horizontal" BackgroundColor="Silver">
+				<Entry Text="{Binding NewItem}"  HorizontalOptions="FillAndExpand"></Entry>
+				<Button Text="Send" Command="{Binding SubmitItemCommand}" HorizontalOptions="End"></Button>
+			</StackLayout>
+		</StackLayout>
+	</ContentView.Content>
+</ContentView>
