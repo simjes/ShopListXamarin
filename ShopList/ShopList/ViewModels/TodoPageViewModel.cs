@@ -9,7 +9,7 @@ namespace ShopList.ViewModels
 		public TodoPageViewModel(IDatabaseService databaseService) : base(databaseService)
 		{
 			_databaseService = databaseService;
-			ItemList = _databaseService.GetShopList(ItemType.Todos);
+			ItemList = _databaseService.GetShopList((int)ItemType.Todos);
 
 			Title = "Todo";
 			SubmitItemCommand = new DelegateCommand(AddNewItem);
@@ -17,7 +17,9 @@ namespace ShopList.ViewModels
 
 		public void AddNewItem()
 		{
-			_databaseService.AddItem(new Item { Name = NewItem, ItemType = ItemType.Todos });
+			var newItem = new Item { Name = NewItem, ItemType = (int)ItemType.Todos };
+			_databaseService.AddItem(newItem);
+			ItemList.Insert(0, newItem);
 			NewItem = "";
 		}
 

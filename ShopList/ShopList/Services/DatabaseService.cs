@@ -1,7 +1,8 @@
-﻿using ShopList.Models;
+﻿using Realms;
+using ShopList.Models;
 using ShopList.Services;
-using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(DatabaseService))]
@@ -10,53 +11,41 @@ namespace ShopList.Services
 {
 	public interface IDatabaseService
 	{
-		ObservableCollection<Item> GetShopList(ItemType listType);
+		ObservableCollection<Item> GetShopList(int listType);
 		void AddItem(Item newItem);
 	}
 
 
 	public class DatabaseService : IDatabaseService
 	{
+		private readonly Realm _realm;
 
-		private readonly ObservableCollection<Item> _groceries = new ObservableCollection<Item>()
+		public DatabaseService()
 		{
-			new Item{Name = "G first item", AddTime = DateTime.Now, ItemType = ItemType.Groceries},
-			new Item{Name = "G second item", AddTime = DateTime.Now, ItemType = ItemType.Groceries},
-			new Item{Name = "G third item", AddTime = DateTime.Now, ItemType = ItemType.Groceries}
-		};
+			_realm = Realm.GetInstance();
+		}
 
-		private readonly ObservableCollection<Item> _todos = new ObservableCollection<Item>()
+		public ObservableCollection<Item> GetShopList(int listType)
 		{
-			new Item{Name = "T first item", AddTime = DateTime.Now, ItemType = ItemType.Groceries},
-			new Item{Name = "T second item", AddTime = DateTime.Now, ItemType = ItemType.Groceries},
-			new Item{Name = "T third item", AddTime = DateTime.Now, ItemType = ItemType.Groceries}
-		};
-
-		public ObservableCollection<Item> GetShopList(ItemType listType)
-		{
-			switch (listType)
-			{
-				case ItemType.Groceries:
-					return _groceries;
-				case ItemType.Todos:
-					return _todos;
-				default:
-					return null;
-			}
-
+			return new ObservableCollection<Item>(_realm.All<Item>().Where(i => i.ItemType == listType).OrderByDescending(i => i.Id));
 		}
 
 		public void AddItem(Item newItem)
 		{
-			switch (newItem.ItemType)
+			using (var transaction = _realm.BeginWrite())
 			{
-				case ItemType.Groceries:
-					_groceries.Insert(0, newItem);
-					break;
-				case ItemType.Todos:
-					_todos.Insert(0, newItem);
-					break;
+				_realm.Add(newItem);
+				transaction.Commit();
 			}
+			//switch (newItem.ItemType)
+			//{
+			//	case ItemType.Groceries:
+			//		_groceries.Insert(0, newItem);
+			//		break;
+			//	case ItemType.Todos:
+			//		_todos.Insert(0, newItem);
+			//		break;
+			//}
 		}
 	}
 }

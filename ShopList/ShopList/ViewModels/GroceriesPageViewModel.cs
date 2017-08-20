@@ -9,16 +9,17 @@ namespace ShopList.ViewModels
 		public GroceriesPageViewModel(IDatabaseService databaseService) : base(databaseService)
 		{
 			_databaseService = databaseService;
-			ItemList = _databaseService.GetShopList(ItemType.Groceries);
+			ItemList = _databaseService.GetShopList((int)ItemType.Groceries);
 
 			Title = "Groceries";
 			SubmitItemCommand = new DelegateCommand(AddNewItem);
-			//ItemList = databaseService.GetShopList(ItemType.Groceries);
 		}
 
 		public void AddNewItem()
 		{
-			_databaseService.AddItem(new Item { Name = NewItem, ItemType = ItemType.Groceries });
+			var newItem = new Item { Name = NewItem, ItemType = (int)ItemType.Groceries };
+			_databaseService.AddItem(newItem);
+			ItemList.Insert(0, newItem);
 			NewItem = "";
 		}
 	}
