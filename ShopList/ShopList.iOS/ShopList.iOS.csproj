@@ -172,6 +172,12 @@
       <HintPath>..\..\packages\Xamarin.Forms.2.3.3.193\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="XamarinFormsGesture, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Vapolia.XamarinFormsGesture.1.1.0\lib\Xamarin.iOS1.0\XamarinFormsGesture.dll</HintPath>
+    </Reference>
+    <Reference Include="XamarinFormsGesture.Ios, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Vapolia.XamarinFormsGesture.1.1.0\lib\Xamarin.iOS1.0\XamarinFormsGesture.Ios.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />

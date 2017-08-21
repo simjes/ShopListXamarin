@@ -5,13 +5,27 @@ using ShopList.Models;
 using ShopList.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace ShopList.ViewModels
 {
 	public class TabChildViewModelBase : BaseViewModel, IActiveAware, INavigatingAware, IDestructible
 	{
 		protected IDatabaseService _databaseService;
+		//private Item _selectedItem { get; set; }
 
+		//public Item SelectedItem
+		//{
+		//	get => _selectedItem;
+		//	set/* => SetProperty(ref _selectedItem, value);*/
+		//	{
+		//		if (_selectedItem == value) return;
+		//		_selectedItem = value;
+		//		RaisePropertyChanged();
+		//	}
+		//}
+
+		//public DelegateCommand SwipeLeftCommand { get; set; }
 		public DelegateCommand SubmitItemCommand { get; set; }
 
 		private ObservableCollection<Item> _itemList;
@@ -27,7 +41,8 @@ namespace ShopList.ViewModels
 		public TabChildViewModelBase(IDatabaseService databaseService)
 		{
 			_databaseService = databaseService;
-			IsActiveChanged += (sender, e) => System.Diagnostics.Debug.WriteLine($"{Title} IsActive: {IsActive}");
+			IsActiveChanged += (sender, e) => Debug.WriteLine($"{Title} IsActive: {IsActive}");
+			//SwipeLeftCommand = new DelegateCommand(SwipeLeft);
 		}
 
 		public event EventHandler IsActiveChanged;
@@ -43,19 +58,29 @@ namespace ShopList.ViewModels
 		public bool IsActive
 		{
 			get => _isActive;
-			set { SetProperty(ref _isActive, value, () => System.Diagnostics.Debug.WriteLine($"{Title} IsActive Changed: {value}")); }
+			set { SetProperty(ref _isActive, value, () => Debug.WriteLine($"{Title} IsActive Changed: {value}")); }
 		}
 
 		public override void OnNavigatingTo(NavigationParameters parameters)
 		{
-			System.Diagnostics.Debug.WriteLine($"{Title} is executing OnNavigatingTo");
+			Debug.WriteLine($"{Title} is executing OnNavigatingTo");
 			var message = parameters.GetValue<string>("message");
 			Message = $"{Title} Initialized by OnNavigatingTo: {message}";
 		}
 
 		public override void Destroy()
 		{
-			System.Diagnostics.Debug.WriteLine($"{Title} is being Destroyed!");
+			Debug.WriteLine($"{Title} is being Destroyed!");
 		}
+
+		private void SwipeLeft()
+		{
+			Debug.WriteLine("swipe left");
+		}
+
+		//public void SelectItem()
+		//{
+		//	SelectedItem = null;
+		//}
 	}
 }
