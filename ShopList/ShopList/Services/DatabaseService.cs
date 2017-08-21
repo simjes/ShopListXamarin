@@ -34,18 +34,21 @@ namespace ShopList.Services
 		{
 			using (var transaction = _realm.BeginWrite())
 			{
+				int newId = GetNextPrimaryKey();
+				newItem.Id = newId;
 				_realm.Add(newItem);
 				transaction.Commit();
 			}
-			//switch (newItem.ItemType)
-			//{
-			//	case ItemType.Groceries:
-			//		_groceries.Insert(0, newItem);
-			//		break;
-			//	case ItemType.Todos:
-			//		_todos.Insert(0, newItem);
-			//		break;
-			//}
+		}
+
+		private int GetNextPrimaryKey()
+		{
+			Item lastItem = _realm.All<Item>().OrderByDescending(item => item.Id).FirstOrDefault();
+			if (lastItem == null) return 0;
+			return lastItem.Id + 1;
+
 		}
 	}
+
+
 }
