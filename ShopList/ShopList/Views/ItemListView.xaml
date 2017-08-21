@@ -16,8 +16,9 @@
 				</ListView.ItemTemplate>
 			</ListView>
 			<StackLayout Orientation="Horizontal">
-				<Entry Text="{Binding NewItem}"  HorizontalOptions="FillAndExpand"></Entry>
-				<Button Text="Send" Command="{Binding SubmitItemCommand}" HorizontalOptions="End"></Button>
+				<Entry Text="{Binding NewItem}"  HorizontalOptions="FillAndExpand" Completed="OnSubmitItem" Placeholder="Write a new item">
+					
+				</Entry>
 			</StackLayout>
 		</StackLayout>
 	</ContentView.Content>

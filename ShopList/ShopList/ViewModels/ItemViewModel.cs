@@ -24,7 +24,6 @@ namespace ShopList.ViewModels
 			//TODO emit delete event
 			Debug.WriteLine("delete item: " + Name);
 		}
-
 	}
 
 	public enum ItemType

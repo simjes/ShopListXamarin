@@ -14,7 +14,7 @@ namespace ShopList.ViewModels
 			SubmitItemCommand = new DelegateCommand(AddNewItem);
 		}
 
-		public void AddNewItem()
+		public override void AddNewItem()
 		{
 			var newItem = new ItemViewModel { Name = NewItem, ItemType = (int)ItemType.Groceries };
 			_databaseService.AddItem(newItem);

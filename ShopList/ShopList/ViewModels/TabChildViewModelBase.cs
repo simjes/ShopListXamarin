@@ -57,6 +57,11 @@ namespace ShopList.ViewModels
 			Debug.WriteLine($"{Title} is being Destroyed!");
 		}
 
+		public virtual void AddNewItem()
+		{
+			throw new NotImplementedException("should override");
+		}
+
 
 		public void DeleteItem(ItemViewModel item)
 		{
