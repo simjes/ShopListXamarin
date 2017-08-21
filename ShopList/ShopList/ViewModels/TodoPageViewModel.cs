@@ -1,5 +1,4 @@
 ﻿using Prism.Commands;
-using ShopList.Models;
 using ShopList.Services;
 
 namespace ShopList.ViewModels
@@ -17,11 +16,10 @@ namespace ShopList.ViewModels
 
 		public void AddNewItem()
 		{
-			var newItem = new Item { Name = NewItem, ItemType = (int)ItemType.Todos };
+			var newItem = new ItemViewModel { Name = NewItem, ItemType = (int)ItemType.Todos };
 			_databaseService.AddItem(newItem);
 			ItemList.Insert(0, newItem);
 			NewItem = "";
 		}
-
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using Realms;
-using ShopList.Models;
 using ShopList.Services;
+using ShopList.ViewModels;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
@@ -11,8 +11,9 @@ namespace ShopList.Services
 {
 	public interface IDatabaseService
 	{
-		ObservableCollection<Item> GetShopList(int listType);
-		void AddItem(Item newItem);
+		ObservableCollection<ItemViewModel> GetShopList(int listType);
+		void AddItem(ItemViewModel item);
+		void RemoveItem(ItemViewModel item);
 	}
 
 
@@ -25,27 +26,36 @@ namespace ShopList.Services
 			_realm = Realm.GetInstance();
 		}
 
-		public ObservableCollection<Item> GetShopList(int listType)
+		public ObservableCollection<ItemViewModel> GetShopList(int listType)
 		{
-			return new ObservableCollection<Item>(_realm.All<Item>().Where(i => i.ItemType == listType).OrderByDescending(i => i.Id));
+			return new ObservableCollection<ItemViewModel>(_realm.All<ItemViewModel>().Where(i => i.ItemType == listType).OrderByDescending(i => i.Id));
 		}
 
-		public void AddItem(Item newItem)
+		public void AddItem(ItemViewModel item)
 		{
 			using (var transaction = _realm.BeginWrite())
 			{
 				int newId = GetNextPrimaryKey();
-				newItem.Id = newId;
-				_realm.Add(newItem);
+				item.Id = newId;
+				_realm.Add(item);
+				transaction.Commit();
+			}
+		}
+
+		public void RemoveItem(ItemViewModel item)
+		{
+			using (var transaction = _realm.BeginWrite())
+			{
+				_realm.Remove(item);
 				transaction.Commit();
 			}
 		}
 
 		private int GetNextPrimaryKey()
 		{
-			Item lastItem = _realm.All<Item>().OrderByDescending(item => item.Id).FirstOrDefault();
-			if (lastItem == null) return 0;
-			return lastItem.Id + 1;
+			ItemViewModel lastItemViewModel = _realm.All<ItemViewModel>().OrderByDescending(item => item.Id).FirstOrDefault();
+			if (lastItemViewModel == null) return 0;
+			return lastItemViewModel.Id + 1;
 
 		}
 	}

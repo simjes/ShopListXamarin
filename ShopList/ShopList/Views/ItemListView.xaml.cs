@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using ShopList.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,6 +10,10 @@ namespace ShopList.Views
 		public ItemListView()
 		{
 			InitializeComponent();
+		}
+		private void OnItemTapped(object sender, ItemTappedEventArgs e)
+		{
+			(BindingContext as TabChildViewModelBase)?.DeleteItem(e.Item as ItemViewModel);
 		}
 	}
 }

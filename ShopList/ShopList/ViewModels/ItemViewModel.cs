@@ -3,9 +3,9 @@ using Realms;
 using System;
 using System.Diagnostics;
 
-namespace ShopList.Models
+namespace ShopList.ViewModels
 {
-	public class Item : RealmObject
+	public class ItemViewModel : RealmObject
 	{
 		[PrimaryKey]
 		public int Id { get; set; }
@@ -14,11 +14,15 @@ namespace ShopList.Models
 		public int ItemType { get; set; }
 		//public ItemType ItemType { get; set; }
 		[Ignored]
-		public DelegateCommand SwipeLeftCommand => new DelegateCommand(SwipeLeft);
+		public DelegateCommand TapToDeleteCommand => new DelegateCommand(Delete);
 
-		private void SwipeLeft()
+		public EventHandler<ItemViewModel> SendDelete;
+
+		private void Delete()
 		{
-			Debug.WriteLine("swipe left");
+			SendDelete.Invoke(this, this);
+			//TODO emit delete event
+			Debug.WriteLine("delete item: " + Name);
 		}
 
 	}

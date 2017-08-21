@@ -5,8 +5,7 @@
 			xmlns:views="clr-namespace:ShopList.Views;assembly=ShopList"
 			prism:ViewModelLocator.AutowireViewModel="True"
 			x:Class="ShopList.Views.TabPage"
-			Title="ShopList"
-			x:Name="TabbedPage">
+			Title="ShopList">
 	<TabbedPage.Children>
 		<views:GroceriesPage />
 		<views:TodoPage />

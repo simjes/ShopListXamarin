@@ -128,12 +128,6 @@
     <Reference Include="Xamarin.Forms.Xaml, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.3.3.193\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
-    <Reference Include="XamarinFormsGesture, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Vapolia.XamarinFormsGesture.1.1.0\lib\MonoAndroid1.0\XamarinFormsGesture.dll</HintPath>
-    </Reference>
-    <Reference Include="XamarinFormsGesture.Droid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Vapolia.XamarinFormsGesture.1.1.0\lib\MonoAndroid1.0\XamarinFormsGesture.Droid.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
