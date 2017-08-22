@@ -16,13 +16,12 @@ namespace ShopList.Droid.Services
 		public void ShowMessageBox(ItemViewModel item, int position)
 		{
 			var view = ((Activity)Forms.Context).FindViewById(Resource.Id.sliding_tabs);
-			var snack = Snackbar.Make(view, $"You removed: {item.Name}", Snackbar.LengthLong);
-			snack.SetAction("UNDO", s =>
+			var snackbar = Snackbar.Make(view, $"You removed: {item.Name}", Snackbar.LengthLong);
+			snackbar.SetAction("UNDO", s =>
 			{
 				UndoDelete?.Invoke(this, item);
 			});
-			snack.Show();
+			snackbar.Show();
 		}
-
 	}
 }

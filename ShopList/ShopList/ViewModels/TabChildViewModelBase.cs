@@ -12,7 +12,7 @@ namespace ShopList.ViewModels
 	public class TabChildViewModelBase : BaseViewModel, IActiveAware, INavigatingAware, IDestructible
 	{
 		protected IDatabaseService _databaseService;
-		private IPopUpSerivce _popUpSerivce;
+		private readonly IPopUpSerivce _popUpSerivce;
 		public DelegateCommand SubmitItemCommand { get; set; }
 
 		private ObservableCollection<ItemViewModel> _itemList;
@@ -72,17 +72,13 @@ namespace ShopList.ViewModels
 			var serializedItem = JsonConvert.SerializeObject(item);
 			ItemViewModel backupItem = JsonConvert.DeserializeObject<ItemViewModel>(serializedItem);
 			backupItem.Position = position;
-			_popUpSerivce.ShowMessageBox(backupItem, position);
 
-			_popUpSerivce.UndoDelete += OnUndoDelete;
 			ItemList.Remove(item);
 			_databaseService.RemoveItem(item);
+
+			_popUpSerivce.ShowMessageBox(backupItem, position);
 		}
 
-		private void OnUndoDelete(object sender, ItemViewModel item)
-		{
-			_databaseService.AddItem(item);
-			ItemList.Insert((int)item.Position, item);
-		}
+
 	}
 }

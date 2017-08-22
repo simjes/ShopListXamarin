@@ -8,6 +8,7 @@ namespace ShopList.ViewModels
 		public GroceriesPageViewModel(IDatabaseService databaseService, IPopUpSerivce popUpSerivce) : base(databaseService, popUpSerivce)
 		{
 			_databaseService = databaseService;
+			popUpSerivce.UndoDelete += OnUndoDelete;
 			ItemList = _databaseService.GetShopList((int)ItemType.Groceries);
 
 			Title = "Groceries";
@@ -20,6 +21,13 @@ namespace ShopList.ViewModels
 			_databaseService.AddItem(newItem);
 			ItemList.Insert(0, newItem);
 			NewItem = "";
+		}
+
+		private void OnUndoDelete(object sender, ItemViewModel item)
+		{
+			if (item.ItemType != (int)ItemType.Groceries) return;
+			_databaseService.AddItem(item);
+			ItemList.Insert((int)item.Position, item);
 		}
 	}
 }
