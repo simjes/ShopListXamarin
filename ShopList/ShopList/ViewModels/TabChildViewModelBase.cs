@@ -9,11 +9,13 @@ using System.Diagnostics;
 
 namespace ShopList.ViewModels
 {
-	public abstract class TabChildViewModelBase : BaseViewModel, IActiveAware, INavigatingAware, IDestructible
+	public abstract class TabChildViewModelBase : BaseViewModel, IActiveAware
 	{
 		protected IDatabaseService _databaseService;
 		private readonly IPopUpSerivce _popUpSerivce;
 		public DelegateCommand SubmitItemCommand { get; set; }
+
+		public event EventHandler IsActiveChanged;
 
 		private ObservableCollection<ItemViewModel> _itemList;
 		public ObservableCollection<ItemViewModel> ItemList { get => _itemList; set => SetProperty(ref _itemList, value); }
@@ -24,15 +26,6 @@ namespace ShopList.ViewModels
 			get => _newItem;
 			set => SetProperty(ref _newItem, value);
 		}
-
-		protected TabChildViewModelBase(IDatabaseService databaseService, IPopUpSerivce popUpSerivce)
-		{
-			_databaseService = databaseService;
-			_popUpSerivce = popUpSerivce;
-			IsActiveChanged += (sender, e) => Debug.WriteLine($"{Title} IsActive: {IsActive}");
-		}
-
-		public event EventHandler IsActiveChanged;
 
 		private string _message;
 		public string Message
@@ -46,6 +39,13 @@ namespace ShopList.ViewModels
 		{
 			get => _isActive;
 			set { SetProperty(ref _isActive, value, () => Debug.WriteLine($"{Title} IsActive Changed: {value}")); }
+		}
+
+		protected TabChildViewModelBase(IDatabaseService databaseService, IPopUpSerivce popUpSerivce)
+		{
+			_databaseService = databaseService;
+			_popUpSerivce = popUpSerivce;
+			IsActiveChanged += (sender, e) => Debug.WriteLine($"{Title} IsActive: {IsActive}");
 		}
 
 		public override void OnNavigatingTo(NavigationParameters parameters)
