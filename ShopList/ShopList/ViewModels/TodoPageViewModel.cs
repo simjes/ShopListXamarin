@@ -23,7 +23,7 @@ namespace ShopList.ViewModels
 			NewItem = "";
 		}
 
-		private void OnUndoDelete(object sender, ItemViewModel item)
+		protected override void OnUndoDelete(object sender, ItemViewModel item)
 		{
 			if (item.ItemType != (int)ItemType.Todos) return;
 			_databaseService.AddItem(item);

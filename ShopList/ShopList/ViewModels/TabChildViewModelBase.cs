@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace ShopList.ViewModels
 {
-	public class TabChildViewModelBase : BaseViewModel, IActiveAware, INavigatingAware, IDestructible
+	public abstract class TabChildViewModelBase : BaseViewModel, IActiveAware, INavigatingAware, IDestructible
 	{
 		protected IDatabaseService _databaseService;
 		private readonly IPopUpSerivce _popUpSerivce;
@@ -25,7 +25,7 @@ namespace ShopList.ViewModels
 			set => SetProperty(ref _newItem, value);
 		}
 
-		public TabChildViewModelBase(IDatabaseService databaseService, IPopUpSerivce popUpSerivce)
+		protected TabChildViewModelBase(IDatabaseService databaseService, IPopUpSerivce popUpSerivce)
 		{
 			_databaseService = databaseService;
 			_popUpSerivce = popUpSerivce;
@@ -60,12 +60,6 @@ namespace ShopList.ViewModels
 			Debug.WriteLine($"{Title} is being Destroyed!");
 		}
 
-		public virtual void AddNewItem()
-		{
-			throw new NotImplementedException("should override");
-		}
-
-
 		public void DeleteItem(ItemViewModel item)
 		{
 			int position = ItemList.IndexOf(item);
@@ -79,6 +73,8 @@ namespace ShopList.ViewModels
 			_popUpSerivce.ShowMessageBox(backupItem, position);
 		}
 
+		public abstract void AddNewItem();
 
+		protected abstract void OnUndoDelete(object sender, ItemViewModel item);
 	}
 }
