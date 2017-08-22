@@ -5,7 +5,7 @@ namespace ShopList.ViewModels
 {
 	public class GroceriesPageViewModel : TabChildViewModelBase
 	{
-		public GroceriesPageViewModel(IDatabaseService databaseService) : base(databaseService)
+		public GroceriesPageViewModel(IDatabaseService databaseService, IPopUpSerivce popUpSerivce) : base(databaseService, popUpSerivce)
 		{
 			_databaseService = databaseService;
 			ItemList = _databaseService.GetShopList((int)ItemType.Groceries);

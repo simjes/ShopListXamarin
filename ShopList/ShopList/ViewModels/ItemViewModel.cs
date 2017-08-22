@@ -14,6 +14,8 @@ namespace ShopList.ViewModels
 		public int ItemType { get; set; }
 		//public ItemType ItemType { get; set; }
 		[Ignored]
+		public int? Position { get; set; }
+		[Ignored]
 		public DelegateCommand TapToDeleteCommand => new DelegateCommand(Delete);
 
 		public EventHandler<ItemViewModel> SendDelete;

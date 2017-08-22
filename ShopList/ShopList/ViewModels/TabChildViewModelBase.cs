@@ -1,4 +1,5 @@
-﻿using Prism;
+﻿using Newtonsoft.Json;
+using Prism;
 using Prism.Commands;
 using Prism.Navigation;
 using ShopList.Services;
@@ -11,6 +12,7 @@ namespace ShopList.ViewModels
 	public class TabChildViewModelBase : BaseViewModel, IActiveAware, INavigatingAware, IDestructible
 	{
 		protected IDatabaseService _databaseService;
+		private IPopUpSerivce _popUpSerivce;
 		public DelegateCommand SubmitItemCommand { get; set; }
 
 		private ObservableCollection<ItemViewModel> _itemList;
@@ -23,9 +25,10 @@ namespace ShopList.ViewModels
 			set => SetProperty(ref _newItem, value);
 		}
 
-		public TabChildViewModelBase(IDatabaseService databaseService)
+		public TabChildViewModelBase(IDatabaseService databaseService, IPopUpSerivce popUpSerivce)
 		{
 			_databaseService = databaseService;
+			_popUpSerivce = popUpSerivce;
 			IsActiveChanged += (sender, e) => Debug.WriteLine($"{Title} IsActive: {IsActive}");
 		}
 
@@ -65,8 +68,21 @@ namespace ShopList.ViewModels
 
 		public void DeleteItem(ItemViewModel item)
 		{
+			int position = ItemList.IndexOf(item);
+			var serializedItem = JsonConvert.SerializeObject(item);
+			ItemViewModel backupItem = JsonConvert.DeserializeObject<ItemViewModel>(serializedItem);
+			backupItem.Position = position;
+			_popUpSerivce.ShowMessageBox(backupItem, position);
+
+			_popUpSerivce.UndoDelete += OnUndoDelete;
 			ItemList.Remove(item);
 			_databaseService.RemoveItem(item);
+		}
+
+		private void OnUndoDelete(object sender, ItemViewModel item)
+		{
+			_databaseService.AddItem(item);
+			ItemList.Insert((int)item.Position, item);
 		}
 	}
 }
